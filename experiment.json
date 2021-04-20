@@ -1,0 +1,169 @@
+{
+  "name": "ai-med/quickNAT_pytorch",
+  "url": "https://github.com/aqui-tna/quickNAT_pytorch ",
+  "python_version": "3",
+  "requirements": {
+    "req_file": "requirements.txt",
+    "pip": [],
+    "others": []
+  },
+  "to_run": {
+    "decision": false,
+    "reason": "The project specifies non existing file paths and provide no alternative"
+},
+"entries": [
+    {
+      "cmd": "python run.py --mode=train",
+      "main": "run.py",
+      "steps": [
+          "training"
+      ],
+      "args_lib": "argparse",
+      "args": [
+        {
+            "names": [
+                "--mode",
+                "-m"
+            ],
+            "input": true,
+            "dest": "mode",
+            "ex_has_default": false,
+            "default": null,
+            "type": "str",
+            "mandatory": true
+        },
+        {
+            "names": [
+                "--setting_path",
+                "-sp"
+            ],
+            "input": true,
+            "dest": "setting_path",
+            "ex_has_default": false,
+            "default": null,
+            "type": "str",
+            "mandatory": false
+        }
+    ],
+      "ins": [
+          {
+          "type": "dir",
+          "location": "datasets/COMBINED/axial",
+          "artifact": "dataset",
+          "ex_from": "conf",
+          "ex_in_repo": false
+          }
+      ],
+      "outs": [
+          {
+            "type": "dir",
+            "location": "saved_models",
+            "artifact": "model",
+            "ex_from": "conf",
+            "ex_in_repo": true
+        },
+        {
+            "type": "dir",
+            "location": "logs",
+            "artifact": "logs",
+            "ex_from": "conf",
+            "ex_in_repo": false
+        },
+        {
+            "type": "dir",
+            "location": "experiments",
+            "artifact": "model",
+            "ex_from": "conf",
+            "ex_in_repo": false
+        }
+      ]
+      },
+      {
+        "cmd": "python run.py --mode=eval",
+        "main": "run.py",
+        "steps": [
+            "testing"
+        ],
+        "args_lib": "argparse",
+        "args": [
+          {
+              "names": [
+                  "--mode",
+                  "-m"
+              ],
+              "input": true,
+              "dest": "mode",
+              "ex_has_default": false,
+              "default": "eval",
+              "type": "str",
+              "mandatory": true
+          }
+      ],
+        "ins": [
+          {
+            "type": "file",
+            "location": "saved_models/quicknat_finetuned_1.pth.tar",
+            "artifact": "model",
+            "ex_from": "conf",
+            "ex_in_repo": false
+            },
+            {
+            "type": "dir",
+            "location": "/home/masterthesis/shayan/nas_drive/Data_Neuro/OASISchallenge",
+            "artifact": "dataset",
+            "ex_from": "conf",
+            "ex_in_repo": false
+            },
+            {
+                "type": "file",
+                "location": "datasets/MALC/test_volumes.txt",
+                "artifact": "dataset",
+                "ex_from": "conf",
+                "ex_in_repo": true
+                }
+            ],
+        "outs": [
+            {
+                "type": "dir",
+                "location": "predictions",
+                "artifact": "dataset",
+                "ex_from": "conf",
+                "ex_in_repo": false
+            }
+        ]
+        }
+  ],
+"ex_metrics": {
+  "metrics_files": [],
+  "prints": [],
+  "plots": [],
+  "others": [
+      {
+          "name": "saved to logs",
+          "in_repo": false,
+          "metrics": ["avg_dice_score"]
+      }
+  ]
+},
+"ex_hyperparams": {
+  "from_cmd": [],
+  "config_files": [
+      {
+          "name": "settings.ini",
+          "in_repo": true,
+          "hyperparams": ["learning_rate",
+            "train_batch_size",
+            "val_batch_size",
+            "log_nth",
+            "num_epochs",
+            "optim_betas",
+            "optim_eps",
+            "optim_weight_decay",
+            "lr_scheduler_step_size",
+            "lr_scheduler_gamma"]
+      }
+  ],
+  "in_code": [],
+  "others": []
+}
+}
