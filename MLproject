@@ -1,0 +1,13 @@
+name: ai-med/quickNAT_pytorch
+conda_env: conda_quickNAT_pytorch.yaml
+entry_points:
+  step0_training:
+    command: python run.py --mode=train
+  step1_testing:
+    parameters:
+      mode:
+        type: str
+        default: eval
+    command: python run.py --mode=eval
+  main:
+    command: python ex_mlflow_multistep_main.py
