@@ -1,0 +1,12 @@
+stages:
+  step0_training:
+    cmd: python run.py --mode=train
+    deps:
+    - run.py
+  step1_testing:
+    cmd: python run.py --mode=eval
+    params:
+    - mode
+    deps:
+    - run.py
+    - datasets/MALC/test_volumes.txt
